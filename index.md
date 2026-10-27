@@ -1,237 +1,107 @@
 ---
-title: UNM Campus Histories
-date: 2019-04-25
-layout: wide
-css: home.css
-header-image: "/assets/images/hodgin-sandias-background.jpg"
-header-title: UNM Campus Histories
-header-subtitle: a student-driven digital history collaboration
-header-caption: Hodgin Hall and the Sandia Mountains
-header-position: 0px 0px
-category: Digital History
+# Change these five lines as soon as you copy this starter.
+title: Your Essay Title
+author: Your Name
+category: Starter Essay                  # change to a category from the student guide
+header-image: sample-archive-photo.jpg   # the filename of your own image
+header-caption: Replace with where your header image came from. Plain text only, no links.
+
+# Fill these in later, once your research is under way.
+card-description: Replace this with two sentences that summarize the story your essay tells and why it matters.
+start:                                   # the year your story begins, shown on the map
+
+# Leave this line as it is.
+layout: essay
 ---
 
-{% assign essays = site.pages | where_exp: "page", "page.path contains 'essays/'" | where: "name", "index.md" | sort: "title" %}
+This first paragraph should give readers a quick way into your topic. Start with a scene, a question, a surprising fact, or a problem your essay will explain. You do not need to summarize everything here. Help the reader understand why this campus place, person, organization, object, or event deserves attention.
 
-{% comment %}
-  Which essays appear in the Featured and Recommended blocks is curated in
-  _data/homepage.yml by folder name. See that file for the rationale.
+Keep the above lead paragraph first. Do not put an image, a heading, or any other component above it.
 
-  Liquid has no lookup-by-key, so each slug is resolved by scanning `essays`
-  for a matching folder. Both sides are downcased so a capitalised folder
-  still matches a lowercase entry in the data file.
-{% endcomment %}
+## Main Story
 
-{% assign featured = nil %}
-{% capture feature_json %}
-[
-{% assign feature_count = 0 %}
-{% for slug in site.data.homepage.featured %}
-  {% assign slug_norm = slug | downcase %}
-  {% assign item = nil %}
-  {% for candidate in essays %}
-    {% assign candidate_folder = candidate.url | split: '/' | slice: 2, 1 | first | downcase %}
-    {% if candidate_folder == slug_norm %}
-      {% assign item = candidate %}
-      {% break %}
-    {% endif %}
-  {% endfor %}
-  {% capture card_src %}{% include images/card-image.html essay=item %}{% endcapture %}
-  {% if item and item.title and item.card-description and card_src != '' %}
-    {% comment %}
-      The url is stored root-relative, with no baseurl: the script below
-      prepends site.baseurl when it swaps in a random essay, so running it
-      through relative_url would duplicate the baseurl in production. The
-      image is already a finished URL from card-image.html, baseurl included.
-    {% endcomment %}
-    {% if feature_count > 0 %},{% endif %}
-    {
-      "title": {{ item.title | jsonify }},
-      "category": {{ item.category | default: "Campus History" | jsonify }},
-      "description": {{ item.popup-teaser | default: item.card-description | jsonify }},
-      "url": {{ item.url | jsonify }},
-      "image": {{ card_src | jsonify }}
-    }
-    {% assign feature_count = feature_count | plus: 1 %}
-    {% comment %} First resolved entry is the pre-JavaScript default. {% endcomment %}
-    {% unless featured %}{% assign featured = item %}{% endunless %}
-  {% endif %}
-{% endfor %}
-]
+Use this section to tell the most important part of the history. Keep paragraphs short enough for online reading. A good paragraph usually develops one idea, source, moment, or change over time.
+
+Use specific evidence from the archive. Name dates, people, places, decisions, conflicts, renovations, controversies, or missing records when they matter. The goal is not just to list facts. The goal is to explain what those facts reveal about UNM and its history.
+
+<!-- Full-width figure. This is the default for any landscape photo wider than about 700px.
+     image-path is just the filename: upload your images into this essay's folder,
+     next to index.md. -->
+
+{% include images/figure.html
+  class="img-center"
+  width="100%"
+  caption="Replace this caption. Say why the image matters, not just what it shows, then cite where you found it: [Center for Southwest Research](https://econtent.unm.edu/), collection and box number."
+  image-path="sample-archive-photo.jpg"
+%}
+
+Every image needs a caption, including this one. A caption should explain what the reader should notice and where the image came from. Captions accept Markdown, so use `[source](https://example.com/)` to link to a digital collection whenever the image has an online home.
+
+## What Changed
+
+Use this section to explain change over time. What did your topic used to be? How did people use it, describe it, fund it, argue about it, rename it, neglect it, preserve it, or forget it?
+
+This is a good place to connect your specific topic to a larger campus pattern: enrollment growth, architecture, student life, race, gender, labor, protest, public memory, administration, technology, or access.
+
+<!-- Carousel: use when you have three or more images that belong together but do not
+     each need their own paragraph. Images are split on commas, captions on the | character.
+     Carousel captions are plain text: Markdown links will NOT work here, so write out
+     the collection name and box number instead of linking. -->
+
+{% assign images =
+"sample-archive-photo.jpg,
+sample-second-photo.jpg,
+sample-primary-source.jpg" | split: ','
+%}
+
+{% assign headers =
+"Replace with a short slide title,
+Replace with a short slide title,
+Replace with a short slide title" | split: ','
+%}
+
+{% assign captions =
+"Replace this caption. Explain what this slide shows and why it matters. Center for Southwest Research, collection name, box number.|
+Replace this caption. Every slide needs one. Center for Southwest Research, collection name, box number.|
+Replace this caption. Plain text only in carousels, so spell out the source instead of linking. Center for Southwest Research, collection name, box number." | split: '|'
+%}
+
+{% include images/carousel.html
+  images=images
+  headers=headers
+  captions=captions
+%}
+
+Delete the carousel if you do not have a set of images that works this way. Three related photographs, a series of floor plans, or a run of newspaper clippings are all good candidates. Two images that need to be compared directly are usually better as a pair than as a carousel.
+
+## Evidence
+
+Use this section to show readers a document, not just a photograph. Scanned letters, meeting minutes, ledgers, clippings, and blueprints all reward close looking, and they prove you spent time in the boxes.
+
+<!-- Portrait documents are the exception to the full-width rule. A tall scan at 100%
+     is over 1200px tall and swallows the screen, so center it and leave it near 55%.
+     Keep it centered, not floated. -->
+
+{% include images/figure.html
+  class="img-center"
+  width="55%"
+  caption="Replace this caption. Tell readers what to notice in the document and why it changes how they should understand your topic. Cite the collection, box, and folder."
+  image-path="sample-primary-source.jpg"
+%}
+
+Explain what the document says, what it does not say, and how it fits the story. A source you actually read and explain is worth more than three you only mention.
+
+## Why This History Matters
+
+End by returning to the present. How should readers see this campus place, person, organization, object, or event differently after reading your essay? Point to continued use, memory, loss, gaps in the archive, or campus change rather than announcing a conclusion.
+
+{% capture bibliography %}
+- Replace this with your first source. Include enough detail that someone else could find it: collection name, box, and folder for archival material.
+- Replace this with your second source.
+- Replace this with your third source.
 {% endcapture %}
-{% assign category_list = "Academic Building|Classroom Building|Dormitory|Historic Building|Landscape|Museum|Office|Public Art|Student Resource|Arts Venue|Campus Services|Dining" | split: "|" %}
 
-<div class="home-magazine">
-  <section class="home-deck" aria-labelledby="home-deck-title">
-    <div class="home-deck__lead">
-      <h2 id="home-deck-title">Spaces have histories, too.</h2>
-      <p>UNM Campus Histories collects student-built essays about the buildings, landscapes, public art, and everyday places that shape university life. The project tries to make history more visible.</p>
-      <div class="home-actions" aria-label="Homepage links">
-        <a class="home-button home-button--quiet" href="{{ '/all-essays/' | relative_url }}">Browse by Name</a>
-        <a class="home-button home-button--quiet" href="{{ '/directory/' | relative_url }}">Browse by Category</a>
-        <a class="home-button home-button--quiet" href="{{ '/map/' | relative_url }}">Explore the Map</a>
-      </div>
-    </div>
-
-    <aside class="home-quote" aria-labelledby="home-quote-title" data-home-quotes="{{ site.data.home_quotes | jsonify | escape }}">
-      <a class="home-quote__image" data-quote-link href="{{ site.data.home_quotes[0].url | relative_url }}">
-        <img data-quote-image src="{{ site.data.home_quotes[0].image | relative_url }}" alt="">
-      </a>
-      <div class="home-quote__body">
-        <p class="home-kicker" id="home-quote-title">From the Essays</p>
-        <blockquote>
-          <p data-quote-text>{{ site.data.home_quotes[0].text }}</p>
-        </blockquote>
-        <p class="home-quote__credit">
-          <a data-quote-link href="{{ site.data.home_quotes[0].url | relative_url }}"><span data-quote-essay>{{ site.data.home_quotes[0].essay }}</span></a>
-          <span data-quote-author>{{ site.data.home_quotes[0].author }}</span>
-        </p>
-      </div>
-      <button class="home-quote__button" type="button" data-quote-next>Another quote</button>
-    </aside>
-  </section>
-
-  {% if featured %}
-  <section class="home-feature" aria-labelledby="featured-story" data-featured-essays="{{ feature_json | strip_newlines | escape }}">
-    <a class="home-feature__image" data-feature-link href="{{ featured.url | relative_url }}">
-      <img data-feature-image src="{% include images/card-image.html essay=featured %}" alt="">
-    </a>
-    <div class="home-feature__story">
-      <p class="home-kicker">Featured Essay <span data-feature-category>{{ featured.category }}</span></p>
-      <h2 id="featured-story"><a data-feature-title data-feature-link href="{{ featured.url | relative_url }}">{{ featured.title }}</a></h2>
-      <p data-feature-description>{{ featured.popup-teaser | default: featured.card-description }}</p>
-      <a class="home-text-link" data-feature-link href="{{ featured.url | relative_url }}">Read the essay</a>
-    </div>
-  </section>
-  {% endif %}
-
-
-  <section class="home-index" aria-labelledby="strong-work">
-    <div class="home-section-heading">
-      <p class="home-kicker">Curated Reading</p>
-      <h2 id="strong-work">Recommended Essays</h2>
-    </div>
-    <div class="home-essay-list">
-      {% comment %} Curated, in order, in _data/homepage.yml. {% endcomment %}
-      {% for slug in site.data.homepage.recommended %}
-        {% assign slug_norm = slug | downcase %}
-        {% assign essay = nil %}
-        {% for candidate in essays %}
-          {% assign candidate_folder = candidate.url | split: '/' | slice: 2, 1 | first | downcase %}
-          {% if candidate_folder == slug_norm %}
-            {% assign essay = candidate %}
-            {% break %}
-          {% endif %}
-        {% endfor %}
-        {% capture card_src %}{% include images/card-image.html essay=essay %}{% endcapture %}
-        {% if essay and essay.card-description and card_src != '' %}
-        <article class="home-essay-row">
-          <a href="{{ essay.url | relative_url }}">
-            <img src="{{ card_src }}" alt="">
-            <span>
-              <span class="home-essay-row__category">{{ essay.category | default: "Campus History" }}</span>
-              <strong>{{ essay.title }}</strong>
-              <em>{{ essay.card-description }}</em>
-            </span>
-          </a>
-        </article>
-        {% endif %}
-      {% endfor %}
-    </div>
-    <p class="home-index__more"><a class="home-text-link" href="{{ '/all-essays/' | relative_url }}">View all essays by name</a></p>
-  </section>
-  <section class="home-about" aria-labelledby="home-about-title">
-    <div>
-      <p class="home-kicker">About the Project</p>
-      <h2 id="home-about-title">A public archive of student research</h2>
-    </div>
-    <p>Campus Histories turns explorations of UNM's official archive into a shared record of UNM's buildings, landscapes, public art, and everyday places. The project asks students to collaborate on a digital project that can keeps circulating long after the semester ends.</p>
-    <a class="home-text-link" href="{{ '/about/' | relative_url }}">Read about the project</a>
-  </section>
-
-  <section class="home-categories" aria-labelledby="home-categories-title">
-    <div class="home-section-heading">
-      <p class="home-kicker">Browse the Collection</p>
-      <h2 id="home-categories-title">Read by place type</h2>
-    </div>
-    <div class="home-category-strip">
-      {% for category in category_list %}
-        {% assign category_essays = essays | where: "category", category %}
-        {% if category_essays.size > 0 %}
-        <a class="home-category" href="{{ '/directory/' | relative_url }}#{{ category | slugify }}">
-          <span>{{ category }}</span>
-          <strong>{{ category_essays.size }}</strong>
-        </a>
-        {% endif %}
-      {% endfor %}
-    </div>
-  </section>
-</div>
-
-<script>
-(function() {
-  function parseData(el, attribute) {
-    try {
-      return JSON.parse(el.getAttribute(attribute)) || [];
-    } catch (error) {
-      return [];
-    }
-  }
-
-  function setLinks(links, href) {
-    links.forEach(function(link) {
-      link.href = '{{ site.baseurl }}' + href;
-    });
-  }
-
-  var quoteModule = document.querySelector('[data-home-quotes]');
-  if (quoteModule) {
-    var quotes = parseData(quoteModule, 'data-home-quotes');
-    var quoteText = quoteModule.querySelector('[data-quote-text]');
-    var quoteEssay = quoteModule.querySelector('[data-quote-essay]');
-    var quoteAuthor = quoteModule.querySelector('[data-quote-author]');
-    var quoteImage = quoteModule.querySelector('[data-quote-image]');
-    var quoteLinks = quoteModule.querySelectorAll('[data-quote-link]');
-    var next = quoteModule.querySelector('[data-quote-next]');
-    var currentQuote = Math.floor(Math.random() * quotes.length);
-
-    function showQuote(index) {
-      var quote = quotes[index];
-      if (!quote) return;
-      quoteText.textContent = quote.text;
-      quoteEssay.textContent = quote.essay;
-      quoteAuthor.textContent = quote.author;
-      if (quoteImage && quote.image) quoteImage.src = '{{ site.baseurl }}' + quote.image;
-      setLinks(quoteLinks, quote.url);
-    }
-
-    showQuote(currentQuote);
-
-    if (next) {
-      next.addEventListener('click', function() {
-        currentQuote = (currentQuote + 1) % quotes.length;
-        showQuote(currentQuote);
-      });
-    }
-  }
-
-  var featureModule = document.querySelector('[data-featured-essays]');
-  if (featureModule) {
-    var features = parseData(featureModule, 'data-featured-essays');
-    var feature = features[Math.floor(Math.random() * features.length)];
-    var featureImage = featureModule.querySelector('[data-feature-image]');
-    var featureTitle = featureModule.querySelector('[data-feature-title]');
-    var featureCategory = featureModule.querySelector('[data-feature-category]');
-    var featureDescription = featureModule.querySelector('[data-feature-description]');
-    var featureLinks = featureModule.querySelectorAll('[data-feature-link]');
-
-    if (feature) {
-      if (featureImage) featureImage.src = feature.image;
-      if (featureTitle) featureTitle.textContent = feature.title;
-      if (featureCategory) featureCategory.textContent = feature.category;
-      if (featureDescription) featureDescription.textContent = feature.description;
-      setLinks(featureLinks, feature.url);
-    }
-  }
-})();
-</script>
+{% include typography/bibliography.html
+  title="Bibliography"
+  content=bibliography
+%}
